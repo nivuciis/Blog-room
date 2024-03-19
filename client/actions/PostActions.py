@@ -17,11 +17,15 @@ class PostActions:
             request_json = json.dumps(action | status | {'post': post_obj.__dict__})
             socket.send(request_json.encode())
             
-            response_json = socket.recv(1024).decode()
+            response_json = socket.recv(2048).decode()
             
             return response_json
         except Exception as e:
-            return str(e)
+            print(e)
+            action = {"action": "serverResponse"}
+            status = {"status": "client error"}
+            response_json = json.dumps(action | status)
+            return response_json  
 
     @staticmethod
     def get_posts(socket, page):
@@ -33,11 +37,16 @@ class PostActions:
             request_json = json.dumps(action | status | page_data)
             socket.send(request_json.encode())
             
-            response_json = socket.recv(1024).decode()
+            response_json = socket.recv(8192).decode()
             
             return response_json
+        
         except Exception as e:
-            return str(e)
+            print(e)
+            action = {"action": "serverResponse"}
+            status = {"status": "client error"}
+            response_json = json.dumps(action | status)
+            return response_json  
     
     @staticmethod
     def get_post_by_id(socket, id):
@@ -49,7 +58,23 @@ class PostActions:
             request_json = json.dumps(action | status | post_id)
             socket.send(request_json.encode())
             
-            response_json = socket.recv(1024).decode()
+            response_json = socket.recv(2048).decode()
+            
+            return response_json
+        except Exception as e:
+            return str(e)
+        
+    @staticmethod
+    def like_post_by_id(socket, id):
+        try:
+            action = {"action": "likePostById"}
+            status = {"status": "request"}
+            post_id = {'post_id': id}
+            
+            request_json = json.dumps(action | status | post_id)
+            socket.send(request_json.encode())
+            
+            response_json = socket.recv(2048).decode()
             
             return response_json
         except Exception as e:

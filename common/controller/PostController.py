@@ -50,7 +50,7 @@ class PostController:
         try:
             offset = (page_number - 1) * self.ITEMS_PER_PAGE
             cursor = self.db_driver.cursor()
-            cursor.execute("SELECT * FROM posts LIMIT ? OFFSET ?", [self.ITEMS_PER_PAGE, offset])
+            cursor.execute("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", [self.ITEMS_PER_PAGE, offset])
             rows = cursor.fetchall()
             posts = [dict(zip([col[0] for col in cursor.description], row)) for row in rows]
             cursor.close()
@@ -68,8 +68,8 @@ class PostController:
     def get_post_by_id(self, post_id):
         try:
             cursor = self.db_driver.cursor()
-            cursor.execute("SELECT * FROM posts WHERE id = ?", int(post_id))
-            row = cursor.fetchone
+            cursor.execute("SELECT * FROM posts WHERE id = ?", (int(post_id),))
+            row = cursor.fetchone()
             post = dict(zip([col[0] for col in cursor.description], row))
             
             action = {"action": "serverResponse"}
@@ -77,9 +77,26 @@ class PostController:
             response_json = json.dumps(action | status | {'post': post})
             return response_json
         
-        except sqlite3.Error as e:
+        except Exception as e:
             print(e)
             action = {"action": "serverResponse"}
             status = {"status": "server error"}
             response_json = json.dumps(action | status)
             return response_json    
+        
+    def like_post_by_id(self, post_id):
+        try:
+            cursor = self.db_driver.cursor()
+            cursor.execute("UPDATE posts SET likes = likes + 1 WHERE id = ?", (int(post_id),))
+            
+            action = {"action": "serverResponse"}
+            status = {"status": "updated"}
+            response_json = json.dumps(action | status)
+            return response_json
+        
+        except Exception as e:
+            print(e)
+            action = {"action": "serverResponse"}
+            status = {"status": "server error"}
+            response_json = json.dumps(action | status)
+            return response_json

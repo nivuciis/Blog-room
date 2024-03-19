@@ -5,6 +5,7 @@ class Controller:
     CREATE_POST_ACTION = "createPost"  # Ação para criar um novo post
     GET_POSTS_ACTION = "getPosts"      # Ação para obter os posts
     GET_POST_BY_ID_ACTION = "getPostById"      # Ação para obter os posts
+    LIKE_POST_BY_ID_ACTION = "likePostById"      # Ação para obter os posts
     SERVER_ERROR_MESSAGE = "server error"  # Mensagem de erro genérica para erros do servidor
 
     def __init__(self):
@@ -34,18 +35,26 @@ class Controller:
                     return self.SERVER_ERROR_MESSAGE  # Retorna uma mensagem de erro se o número da página estiver ausente
 
             elif action == self.GET_POST_BY_ID_ACTION:
-                # post_id = request_data.get('post_id')
+                post_id = request_data.get('post_id')
                 # print(post_id)
-                response = self.postController.get_post_by_id(4)
+                response = self.postController.get_post_by_id(post_id)
                 return response
                 ''' if post_id is not None:
                     
                 else:
                     return self.SERVER_ERROR_MESSAGE '''
+                    
+            elif action == self.LIKE_POST_BY_ID_ACTION:
+                post_id = request_data.get('post_id')
+                response = self.postController.like_post_by_id(post_id)
+                return response
             
             else:
                 return f"Invalid action: {action}"  # Retorna uma mensagem de erro se a ação for inválida
 
         except Exception as error:  # Trata exceções
             print(f'Error: {error}')  # Imprime o erro
-            return self.SERVER_ERROR_MESSAGE  # Retorna a mensagem de erro genérica do servidor em caso de exceção
+            action = {"action": "serverResponse"}
+            status = {"status": "server error"}
+            response_json = json.dumps(action | status)
+            return response_json  

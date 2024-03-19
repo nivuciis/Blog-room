@@ -56,7 +56,7 @@ class Server:
         """
         try:
             while True:
-                request = _socket.recv(1024).decode()
+                request = _socket.recv(2048).decode()
                 if not request:
                     print("Empty message received, closing connection.")
                     break
@@ -64,7 +64,7 @@ class Server:
 
                 result = self.controller.handle_request(request)
 
-                _socket.send(result.encode())
+                _socket.sendall(result.encode())
         except (ConnectionAbortedError, ConnectionResetError):
             print("Conexão encerrada pelo cliente.")
         finally:

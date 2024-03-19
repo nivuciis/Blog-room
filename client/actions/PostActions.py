@@ -26,3 +26,16 @@ class PostActions:
             return 'Server error' '''
             
         return responseJson
+
+    def getPosts(_socket, _page):
+        page = {'page': _page}
+        action = {"action": "getPosts"}
+        status = {"status": "request"}
+        
+        requestJson = json.dumps(action | status | page)
+        _socket.send(requestJson.encode())
+        
+        responseJson = _socket.recv(1024).decode()
+        
+        return responseJson
+        

@@ -15,38 +15,43 @@ class Client:
         self.HOST = host
         self.PORT = port
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
-    '''def responseHandler(self, _socket):
-        while True:
-            try:
-                mensagem = _socket.recv(1024).decode("utf-8")
-                print("Mensagem recebida:", mensagem)
-            except ConnectionAbortedError:
-                print("Conexão encerrada pelo servidor.")
-                break
-        
-        exit()
-            
-    def requestSender(self, _socket):
-        while True:
-            action = input("Digite uma mensagem para enviar: ")
-            
-            match int(action):
-                case 1:
-                    post = Post(None, "kevin", "pedro", 0, None, None, "darlan")
-                    PostActions.sendPostRequest(post, self._socket) 
-                case 2:
-                    exit() '''
+    
+    def printPost(self, post):
+        print(f"\nUsuário: {post['username']}\nTítulo: {post['title']}\n{post['body']}\nData: {post['date']}     Hora: {post['time']}")    
     
     def actionMenu(self, _socket):
         print("Escolha entre as opções: ")
-        print("1 - Criar novo post      2 - Visualizar post mais recentes       3 - Sair")
+        print("\n1 - Criar novo post      2 - Visualizar posts mais recentes       3 - Sair")
         choose = int(input())
         
         match choose:
             case 1:
                 response = PostActions.createPost(_socket)
                 print(response)
+            case 2:
+                page = 1
+                responseJson = PostActions.getPosts(_socket, page)
+                response = json.loads(responseJson)
+                
+                
+                if (response['status'] == 'ok'):
+                    for post in response['posts']:
+                        self.printPost(post)
+                
+                while True:
+                    print("\n1 - Avançar página      2 - Voltar página       3 - Voltar")
+                    choose_in_page_selection = int(input())
+                    
+                    if (choose_in_page_selection == 1):
+                        page = page + 1
+                        response = PostActions.getPosts(_socket, page)
+                        print(response)
+                    elif (choose_in_page_selection == 2):
+                        page = page - 1
+                        response = PostActions.getPosts(_socket, page)
+                        print(response)
+                    elif (choose_in_page_selection == 3):
+                        break       
             case 3:
                 self._socket.close()
                 exit()
@@ -70,41 +75,4 @@ ___.   .__
             
         self._socket.close()
         
-        ''' receiveThread = threading.Thread(target=self.responseHandler, args=(self._socket, ))
-        requestThread = threading.Thread(target=self.requestSender, args=(self._socket, ))
-        
-        receiveThread.start()
-        requestThread.start() '''
-        
-        '''while True:
-            inputStreams = [sys.stdin, self._socket]
-            readStream, writeStream, errorStream = select.select(inputStreams,[],[])
-            
-            for stream in inputStreams: 
-                if stream == self._socket: # if is receiving data from server
-                    message = self._socket.recv(2048) 
-                    print(message.decode('ascii')) 
-                else: 
-                    action = sys.stdin.readline()
-                    match int(action):
-                        case actionMenu.CREATE_POST:
-                            post = Post(None, "kevin", "pedro", 0, None, None, "darlan")
-                            PostActions.sendPostRequest(post, self._socket) 
-        '''                 
-                            
-        ''' self._socket.send(json.dumps({"username": "ricardo"}).encode("ascii"))
-            
-            data = self._socket.recv(1024)
-            
-            print('Received from the server :',json.loads(data.decode("ascii")))
-            
-            ans = input('\nDo you want to continue(y/n) :')
-            if ans == 'y':
-                continue
-            else:
-                break '''
-                
-        # requestThread.join()
-        # receiveThread.join()
-            
         

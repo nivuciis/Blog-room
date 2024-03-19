@@ -15,17 +15,6 @@ class Server:
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.controller = Controller()
         
-    ''' def requestHandle(self, _socket):
-        while True:
-            try:
-                mensagem = _socket.recv(1024).decode()
-                print("Mensagem recebida:", mensagem)
-            except ConnectionAbortedError:
-                print("Conexão encerrada pelo servidor.")
-                break
-        
-        exit() '''
-    # def responseSender(self, _socket):
         
     
     def start(self):
@@ -45,6 +34,8 @@ ___.   .__
         self._socket.listen(100)
         print(f"Socket is listening for 100 conn")
         
+        self._initAllTables()
+        
         while True:
             conn, addr = self._socket.accept()
             
@@ -58,13 +49,6 @@ ___.   .__
             
     
     def clientThread(self, _socket):
-        # requestHandleThread = threading.Thread(target=self.requestHandle, args=(conn, ))
-        
-        ''' data = json.loads(data.decode("ascii"))
-            data["username"] = data["username"].upper()
-            data = json.dumps(data) '''
-            
-        # requestHandleThread.start()
         
         while True:
             try:
@@ -72,18 +56,15 @@ ___.   .__
                 if not request:
                     print("Empty message received, closing connection.")
                     break
-                print("Mensagem recebida:", request)
+                print("Mensagem recebida:", request, "\n")
                 
-                self.controller.handleRequest(request)
+                result = self.controller.handleRequest(request)
                 
-                
-                _socket.send("ababa".encode())
+                _socket.send(result.encode())
             except ConnectionAbortedError:
                 print("Conexão encerrada pelo servidor.")
                 break
         
     def _initAllTables(self):
         Post._initTable()
-        newPost = Post(None, "Guard", "Echo", 0, None, None, "Ricardo")
-        print(newPost.__dict__)
         

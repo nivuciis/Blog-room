@@ -3,39 +3,54 @@ from common.model.Post import Post
 
 class PostActions:
 
-    def createPost(_socket):
-        title = input("Selecione o título do post ")
-        body = input("Qual o corpo da mensagem ")
-        postObj = Post(id=None, title=title, body=body, likes=None, date=None, time=None, username="Test")
-        
-        action = {"action": "createPost"}
-        status = {"status": "request"}
-        
-        requestJson = json.dumps(action | status | {'post': postObj.__dict__})
-        _socket.send(requestJson.encode())
-        
-        responseJson = _socket.recv(1024).decode()
-        ''' response = json.loads(responseJson)
-        
-        
-        if (response['status'] == 'created'):
-            return f"Your was succesfully created with ID #{response['id']}"
-        elif (response['status' == 'invalid']):
-            return response['errorMsg']
-        else:
-            return 'Server error' '''
+    @staticmethod
+    def create_post(socket):
+        try:
+            title = input("Selecione o título do post: ")
+            body = input("Qual o corpo da mensagem: ")
             
-        return responseJson
+            post_obj = Post(id=None, title=title, body=body, likes=None, date=None, time=None, username="Test")
+            
+            action = {"action": "createPost"}
+            status = {"status": "request"}
+            
+            request_json = json.dumps(action | status | {'post': post_obj.__dict__})
+            socket.send(request_json.encode())
+            
+            response_json = socket.recv(1024).decode()
+            
+            return response_json
+        except Exception as e:
+            return str(e)
 
-    def getPosts(_socket, _page):
-        page = {'page': _page}
-        action = {"action": "getPosts"}
-        status = {"status": "request"}
-        
-        requestJson = json.dumps(action | status | page)
-        _socket.send(requestJson.encode())
-        
-        responseJson = _socket.recv(1024).decode()
-        
-        return responseJson
-        
+    @staticmethod
+    def get_posts(socket, page):
+        try:
+            page_data = {'page': page}
+            action = {"action": "getPosts"}
+            status = {"status": "request"}
+            
+            request_json = json.dumps(action | status | page_data)
+            socket.send(request_json.encode())
+            
+            response_json = socket.recv(1024).decode()
+            
+            return response_json
+        except Exception as e:
+            return str(e)
+    
+    @staticmethod
+    def get_post_by_id(socket, id):
+        try:
+            action = {"action": "getPostById"}
+            status = {"status": "request"}
+            post_id = {'post_id': id}
+            
+            request_json = json.dumps(action | status | post_id)
+            socket.send(request_json.encode())
+            
+            response_json = socket.recv(1024).decode()
+            
+            return response_json
+        except Exception as e:
+            return str(e)

@@ -2,37 +2,36 @@ import sys
 from server.server import Server
 from client.client import Client
 
-def startServer(host, port):
+def start_server(host, port):
     server = Server(host, port)
     server.start()
 
-def startClient(host, port):
+def start_client(host, port):
     client = Client(host, port)
     client.start()
 
-def Main():
-    
-    # Checks if args are passed
-    argsSize = len(sys.argv)
+def main():
+    # Verifica se há argumentos passados
+    args_size = len(sys.argv)
 
-    if (argsSize != 4):
-        sys.exit("Correct usage of program: python y.py EXEC_TYPE IP_ADDR PORT")
+    if args_size != 4:
+        sys.exit("Uso correto do programa: python y.py TIPO_EXEC IP_ADDR PORTA")
 
-    # Checks the type of execution
-
-    execType = sys.argv[1]
-    
+    # Verifica o tipo de execução
+    exec_type = sys.argv[1]
     host = sys.argv[2]
-    port = int(sys.argv[3])
+    
+    try:
+        port = int(sys.argv[3])
+    except ValueError:
+        sys.exit("A PORTA deve ser um número inteiro válido")
 
-    if (execType == "-s"):
-        startServer(host, port)
-    elif (execType == "-c"):
-        startClient(host, port)
+    if exec_type == "-s":
+        start_server(host, port)
+    elif exec_type == "-c":
+        start_client(host, port)
     else:
-        sys.exit("EXEC_TYPE must be -s for server or -c for client")
-    
-    
+        sys.exit("TIPO_EXEC deve ser -s para servidor ou -c para cliente")
 
 if __name__ == '__main__':
-    Main()
+    main()

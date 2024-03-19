@@ -1,10 +1,5 @@
 import sqlite3
 
-'''
-    PostJson structure:
-'''
-
-
 class Post:
     def __init__(self, id, title, body, likes, date, time, username):
         self.id = id
@@ -15,7 +10,8 @@ class Post:
         self.time = time
         self.username = username
     
-    def _initTable():
+    @staticmethod
+    def _init_table():
         dbConn = sqlite3.connect("database.db", check_same_thread=False)
         cur = dbConn.cursor()
               
@@ -23,13 +19,8 @@ class Post:
             cur.execute("CREATE TABLE posts(id INTEGER PRIMARY KEY, title TEXT, body TEXT, likes INT, date TEXT, time TEXT, username TEXT)")
             cur.close()
             dbConn.close()
-        except:
-            print("Post table already exists or cannot create")
-            
-            
-        
-        
-        
-    
-    
-            
+        except sqlite3.OperationalError as e:
+            print(f"Error creating Post table: {e}")
+
+# Para criar a tabela, você precisa chamar explicitamente o método _initTable()
+# Post._initTable()

@@ -1,4 +1,4 @@
-# [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Ubuntu&size=40&color=17CE1D&center=false&lines=BLOG+ROOM)](https://git.io/typing-svg)
+# [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Ubuntu&size=35&color=17CE1D&center=false&lines=BLOG+ROOM)](https://git.io/typing-svg)
 O objetivo deste projeto é simular um sistema  de blog utilizando sockets, em que uma pessoa pode fazer uma postagem enquanto outras pessoas podem visualizar e curtir.
 
 # Alunos

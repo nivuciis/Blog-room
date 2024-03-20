@@ -1,12 +1,12 @@
 # Blog-room
 O objetivo deste projeto é simular um sistema  de blog utilizando sockets, em que uma pessoa pode fazer uma postagem enquanto outras pessoas podem visualizar e curtir.
 
-#Alunos
+# Alunos
 Filipe Ferreira Figueredo Soriano Pinto
 Ricardo Vinicius de Almeida Fernandes
 Vinicius Rafael MArques de Carvalho
 
-#Instruções de uso
+# Instruções de uso
 O primeiro passo para executar a aplicação é iniciar a conexão do servidor, para isso é necessário executar o arquivo y.py em um prompt de comando adicionar a flag -s para indicar que uma conexão de servidor deve ser iniciada, em seguida adicionar o ip em que o servidor vai rodar e a porta.
 Exemplo: python3 y.py -s localhost 1234.
 

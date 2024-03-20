@@ -4,14 +4,14 @@ O objetivo deste projeto é simular um sistema  de blog utilizando sockets, em q
 # Alunos
 Filipe Ferreira Figueredo Soriano Pinto  
 Ricardo Vinicius de Almeida Fernandes  
-Vinicius Rafael MArques de Carvalho
+Vinicius Rafael Marques de Carvalho
 
 # Instruções de uso
 O primeiro passo para executar a aplicação é iniciar a conexão do servidor, para isso é necessário executar o arquivo y.py em um prompt de comando adicionar a flag -s para indicar que uma conexão de servidor deve ser iniciada, em seguida adicionar o ip em que o servidor vai rodar e a porta.  
-Exemplo: python3 y.py -s localhost 1234.
+Exemplo: python3 y.py -s 192.168.0.100 1234.
 
 O passo para criar a conexão do cliente é semelhante, é necessário executar o arquivo y.py, adicionar a flag -c, colocar o ip do servidor e a porta.  
-Exemplo: python3 y.py -c localhost 1234.
+Exemplo: python3 y.py -c 192.168.0.100 1234.
 
 Após iniciar a conexão do cliente será exibida uma interface com as funcionalidades disponíveis, como criar post, visualizar post e encerrar a conexão.
 

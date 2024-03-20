@@ -1,4 +1,4 @@
-# Blog-room
+# [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Ubuntu&size=20&color=17CE1D&center=true&lines=PROJETO+DE+ESTRUTURA+DE+DADOS)](https://git.io/typing-svg)
 O objetivo deste projeto é simular um sistema  de blog utilizando sockets, em que uma pessoa pode fazer uma postagem enquanto outras pessoas podem visualizar e curtir.
 
 # Alunos

@@ -8,8 +8,9 @@ class PostActions:
         try:
             title = input("Selecione o título do post: ")
             body = input("Qual o corpo da mensagem: ")
+            username = input("Como você quer ser chamado ? ")
             
-            post_obj = Post(id=None, title=title, body=body, likes=None, date=None, time=None, username="Test")
+            post_obj = Post(id=None, title=title, body=body, likes=None, date=None, time=None, username= username)
             
             action = {"action": "createPost"}
             status = {"status": "request"}

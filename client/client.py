@@ -1,10 +1,7 @@
 import socket
 import json
 import os
-
-
 from client.actions.PostActions import PostActions
-
 class Client:
     MENU_CREATE_POST = 1
     MENU_VIEW_POSTS = 2
@@ -98,17 +95,22 @@ class Client:
         # Exibe o menu de ações disponíveis para o cliente
         print("Escolha entre as opções: ")
         print("\n1 - Criar novo post      2 - Visualizar posts mais recentes       3 - Sair")
-        choose = int(input())
+        
+        try:
+            choose = int(input())
+            if choose == self.MENU_CREATE_POST:
+                self.create_post(_socket)
+            elif choose == self.MENU_VIEW_POSTS:
+                self.view_posts(_socket)
+            elif choose == self.MENU_EXIT:
+                self._socket.close()
+                exit()
+            else:
+                print("Opção inválida")
+        except ValueError as error:
+            print("\n\nValores incorretos de entrada!\n\n")
+            
 
-        if choose == self.MENU_CREATE_POST:
-            self.create_post(_socket)
-        elif choose == self.MENU_VIEW_POSTS:
-            self.view_posts(_socket)
-        elif choose == self.MENU_EXIT:
-            self._socket.close()
-            exit()
-        else:
-            print("Opção inválida")
 
     def start(self):
         # Inicia o cliente e exibe a interface de usuário
@@ -129,3 +131,4 @@ class Client:
             self.action_menu(self._socket)
             
         self._socket.close()
+

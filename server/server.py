@@ -58,8 +58,7 @@ class Server:
             while True:
                 request = _socket.recv(2048).decode()
                 if not request:
-                    print("Empty message received, closing connection.")
-                    break
+                    print("Mensagem vazia recebida")
                 print("Mensagem recebida:", request, "\n")
 
                 result = self.controller.handle_request(request)
